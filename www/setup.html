@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Setup</title>
+
+<style>
+body {
+  background:url(images/bg.jpg) #000000 no-repeat left top;
+  background-size: 100%;
+}
+</style>
+<script type="text/javascript">
+  function check(){
+    if(localStorage.contactcheck==="1"&&localStorage.timercheck==="1"&&localStorage.textcheck==="1"){
+    document.getElementById("emergency").style.display = "block";
+    document.getElementById("warningtext").style.display = "none";}
+  }
+</script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<link href="css/jumbotron-narrow.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+<link rel="stylesheet" href="css/custom.css">
+
+</head>
+<body onload="check();">
+
+<div id ="warningtext">
+  <p> Before you begin using the app, you must first complete the emergency settings.</p>
+</div>
+
+<div class="container">
+
+        <div id = "emergency"><center><a href="index.html"><image src = "images/emergency.png" width = "70%"/> </a></center></div>
+
+        <div><image height ="30px"/></div>
+
+        <div id = "contactbutton"><center><a href="addcontact.html"><image src = "images/contact.png" width = "80%"/> </a></center></div>
+
+        <div><image height ="30px"/></div>
+
+        <center><a href="edittext.html"><image src = "images/text.png" width = "80%"/> </a></center>
+
+        <div><image height ="30px"/></div>
+
+        <center><a href="edittimer.html"><image src = "images/timer.png" width = "80%" /> </a></center>
+
+</div> 
+
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "org.apache.cordova.geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.geolocation"
+        }
+    },
+    "com.rjfun.cordova.sms": {
+        "source": {
+            "type": "registry",
+            "id": "com.rjfun.cordova.sms"
+        }
+    }
+}

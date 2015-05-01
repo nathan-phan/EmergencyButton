@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8"/>
+	<title>Activate</title>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+<link rel="stylesheet" href="css/custom.css">
+
+</head>
+<body onload="onLoad()">
+
+<style>
+body {
+	background-color:black;
+}
+</style>	
+
+<div><image height ="30px"/></div>
+<a href = '#' onclick='safe()'><img id = "safebutton"  src="images/safe.png" width="120" height = "50" /></a>
+<a href = 'setup.html'><img id = "setupbutton"  src="images/setupbutton.png" width="120" height = "50" /></a>
+
+<div><image height ="30px"/></div>
+
+<center>
+	<div class = "activateblock">
+	<div class="item">
+	<a href="tel:911" onClick='window.open(this.href,"_system");return false;'><img id ="callbutton" src = "images/callbutton.png"/></a>
+	<span class="caption" id="call911">Call 911 </span>
+	</div>
+	<div class="item">
+	<img  id = "textbutton" src = "images/textbutton.png" onclick="countDown()"/>
+	<span class="caption" id ="starttimer">Start timer</span>
+	</div>
+	<div><image height ="30px"/></div>
+	<img onclick="add30();" id="add30button" src = "images/add30s.png" width ="150px"/>
+	<div class="countdowntext" id="div1"></div> 
+	<div class = "added30" id = "div2"></div>
+	
+</center>
+
+
+
+<script type="text/javascript"> 
+ function onLoad() {
+            if(( /(ipad|iphone|ipod|android)/i.test(navigator.userAgent) )) {
+                document.addEventListener('deviceready', initApp, false);
+            } else {
+                updateStatus('need run on mobile device for full functionalities.');
+            }
+  }
+
+ function safe(){
+    count=-2;
+    document.getElementById("add30button").style.visibility="hidden";
+ }
+
+ function check(){
+    if(!(localStorage.contactcheck==="1"&&localStorage.timercheck==="1"&&localStorage.textcheck==="1")){
+        alert('You need to set up before you can use the app.');
+        window.location.href = "setup.html";
+    }
+}
+
+ function initApp() {
+            check();
+            getLocation();
+        	if (! SMS ) { alert( 'SMS plugin not ready' ); return; } }
+
+ function sendSMS() {
+        	var userNumbers=JSON.parse(localStorage['userN']);
+        	var textmsg1 = localStorage.userEdits.replace(/&nbsp;/g, ' ');
+
+        	if(localStorage.GPS==='true'){
+        		var googlelink = 'http://maps.google.com/maps?z=18&q=' + sessionStorage.lattitude + ',' + sessionStorage.longitude;
+        		var gpslocation = 'This is my location: ' + googlelink;
+        		var textmsg = textmsg1 + gpslocation;
+
+        	}
+
+        	if(localStorage.GPS==='false')
+        		var textmsg = textmsg1 ;
+
+        	for(var i=0; i<userNumbers.length;i++){
+                var sendto = userNumbers[i];
+                if(SMS) SMS.sendSMS(sendto, textmsg, function(){}, function(str){alert(str);});
+            }
+        }       	
+
+ 
+
+var lat = 0;
+var lng = 0;
+
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
+}
+
+function onSuccess(position) {
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
+    sessionStorage.setItem('lattitude', lat);
+    sessionStorage.setItem('longitude', lng);
+}
+function onError(error) {
+    alert('code: ' + error.code + '\n' +
+          'message: ' + error.message + '\n');
+}
+
+
+count=localStorage.userTimer;
+timer="" ;
+
+function countDown(){ 
+
+
+document.getElementById("starttimer").innerHTML="Send text now";	
+
+document.getElementById("textbutton").src="images/textbuttonnow.png";	
+
+document.getElementById("add30button").style.visibility="visible";	
+
+document.getElementById("div1").innerHTML="Your emergency text will be sent after "+count+" seconds" 
+
+timer=setTimeout("countDown()",1000) 
+
+if(count==0){ 
+clearTimeout(timer) 
+document.getElementById("div1").innerHTML="Sending text";
+document.getElementById("add30button").style.visibility="hidden";
+sendSMS();
+} 
+
+if(count<=-1){
+    document.getElementById("div1").innerHTML="App stopped.";
+    document.getElementById("add30button").style.visibility="hidden";
+}
+
+count-- 
+
+document.getElementById("textbutton").onclick =function(){ sendNow();};	
+
+} 
+
+function sendNow(){
+	count = 0;
+	document.getElementById("add30button").style.visibility="hidden";
+
+}
+
+function add30(){
+	count+=30;
+	document.getElementById("div2").innerHTML="Added 30 seconds.";
+	$('#div2').fadeOut(4000,function(){
+		   $("#div2").empty();
+    $("#div2").show();});
+
+}
+
+
+</script> 
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+ <script src='cordova.js'></script> 
+
+</body>
+</html>
